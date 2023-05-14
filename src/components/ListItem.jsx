@@ -1,30 +1,42 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { delInfo } from "../feature/ProductsSlice";
 
 const ListItem = () => {
   const { arrinfo } = useSelector((state) => state.infoStudent);
-
+  const dispatch = useDispatch();
+  const handleEdit =()=>{
+    
+  }
   return (
     <div className="card container">
       <h2 className="text-center py-2">Danh Sanh</h2>
       <table className=" card-header table align-middle mb-0 shadow-5 rounded-top">
         <thead className=" text-white bg-primary">
           <tr>
-            <th>Name</th>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Position</th>
-            <th>Actions</th>
+            <th>Ma</th>
+            <th>Họ Tên</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th className="text-center">Edit</th>
           </tr>
         </thead>
         <tbody>
-          {arrinfo.map((item) => {
+          {arrinfo.map((item, index) => {
             return (
               <tr key={item.id}>
                 <th>{item.id}</th>
                 <th>{item.name}</th>
                 <th>{item.email}</th>
                 <th>{item.phone}</th>
-                <th>zai</th>
+                <th className="text-center">
+                  <button className="btn btn-success" onClick={handleEdit}>sua</button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => dispatch(delInfo(index))}
+                  >
+                    xoa
+                  </button>
+                </th>
               </tr>
             );
           })}
