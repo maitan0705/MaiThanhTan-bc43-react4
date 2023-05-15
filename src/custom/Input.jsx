@@ -1,6 +1,6 @@
 import { useController } from "react-hook-form";
 
-export const Input = ({ control, ...props }) => {
+export const Input = ({ control, children, ...props }) => {
   const { field } = useController({
     control,
     name: props.name,
@@ -8,20 +8,11 @@ export const Input = ({ control, ...props }) => {
   });
 
   return (
-    <div className="form-outline ">
-          <input
-            className="form-control p-2"
-            {...field}
-            {...props}
-          />
-          <label className="form-label py-2" htmlFor={props.name}>
-            {props.textLabel}
-          </label>
-          <div className="form-notch">
-            <div className="form-notch-leading" style={{ width: 10 }} />
-            <div className="form-notch-middle" style={{ width: 64 }} />
-            <div className="form-notch-trailing" />
-          </div>
-        </div>
+    <div className=" ">
+      <label className="text-black ms-2" htmlFor={props.name}>
+        {children}
+      </label>
+      <input className="form-control p-2" {...field} {...props} />
+    </div>
   );
 };

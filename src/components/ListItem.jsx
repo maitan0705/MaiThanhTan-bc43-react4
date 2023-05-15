@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import { delInfo } from "../feature/ProductsSlice";
+import { delInfo, valueUpdate } from "../feature/ProductsSlice";
+import { useEffect } from "react";
 
 const ListItem = () => {
   const { arrinfo } = useSelector((state) => state.infoStudent);
   const dispatch = useDispatch();
-  const handleEdit =()=>{
-    
-  }
+  useEffect(()=>{
+
+  },[arrinfo])
+  
   return (
     <div className="card container">
       <h2 className="text-center py-2">Danh Sanh</h2>
@@ -29,7 +31,15 @@ const ListItem = () => {
                 <th>{item.email}</th>
                 <th>{item.phone}</th>
                 <th className="text-center">
-                  <button className="btn btn-success" onClick={handleEdit}>sua</button>
+                  <button
+                    className="btn btn-success"
+                    onClick={() => 
+                      
+                      dispatch(valueUpdate(item))
+                    }
+                  >
+                    sua
+                  </button>
                   <button
                     className="btn btn-danger"
                     onClick={() => dispatch(delInfo(index))}

@@ -3,8 +3,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Input } from "../custom/Input";
 import { useDispatch, useSelector } from "react-redux";
-import { setInfo } from "../feature/ProductsSlice";
-import { useState } from "react";
+import { setInfo, updateInfo } from "../feature/ProductsSlice";
+import { useEffect } from "react";
 
 const schema = yup
   .object({
@@ -18,34 +18,41 @@ const schema = yup
       message: "Please enter the correct phone",
     }),
   })
-.required();
-
+  .required();
 
 const Form = () => {
+  const student = useSelector((state) => state.infoStudent.formEdit);
   const dispatch = useDispatch();
   const {
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
+
   const onSubmit = (data) => {
-    console.log(data);
-    dispatch(setInfo(data));
+    if (student.watch) {
+      dispatch(updateInfo(data));
+    } else {
+      dispatch(setInfo(data));
+    }
     reset({
       id: "",
       name: "",
       email: "",
       phone: "",
-    })
+    });
   };
 
-  // const [name, setName] = useState(student ? student.name : "");
-  // const [email, setEmail] = useState(student ? student.email : "");
-  // const [phone, setPhone] = useState(student ? student.phone : "");
-  // const handleUpdateUser = () => {};
+  useEffect(() => {
+    setValue("id", `${student.id}`);
+    setValue("name", `${student.name}`);
+    setValue("email", `${student.email}`);
+    setValue("phone", `${student.phone}`);
+  }, [setValue, student]);
 
   return (
     <form
@@ -60,8 +67,9 @@ const Form = () => {
             placeholder="Enter your id address"
             id="id"
             control={control}
-            textLabel="Id"
-          ></Input>
+          >
+            ID
+          </Input>
           {errors.id && (
             <p className="text-danger m-0 fs-6">{errors.id.message}</p>
           )}
@@ -72,10 +80,10 @@ const Form = () => {
             placeholder="Enter your name address"
             id="name"
             control={control}
-            textLabel="Name"
-            // value={name}
             // onChange={(e) => setName(e.target.value)}
-          ></Input>
+          >
+            Name
+          </Input>
           {errors.name && (
             <p className="text-danger m-0 fs-6">{errors.name.message}</p>
           )}
@@ -86,10 +94,10 @@ const Form = () => {
             placeholder="Enter your email address"
             id="email"
             control={control}
-            textLabel="Email"
-            // value={email}
             // onChange={(e) => setEmail(e.target.value)}
-          ></Input>
+          >
+            Email
+          </Input>
           {errors.email && (
             <p className="text-danger m-0 fs-6">{errors.email.message}</p>
           )}
@@ -100,18 +108,15 @@ const Form = () => {
             placeholder="Enter your phone address"
             id="phone"
             control={control}
-            textLabel="Phone"
-            // value={phone}
             // onChange={(e) => setPhone(e.target.value)}
-          ></Input>
+          >
+            Phone
+          </Input>
           {errors.phone && (
             <p className="text-danger m-0 fs-6">{errors.phone.message}</p>
           )}
         </div>
-        <button className="btn btn-success">Submit</button>
-        {/* {user && (
-        <button onClick={handleUpdateUser}>Update user</button>
-      )} */}
+        <button type="submit">{student.watch ? "Update" : "Add"}</button>
       </div>
     </form>
   );
