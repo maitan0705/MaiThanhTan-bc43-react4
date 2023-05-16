@@ -32,15 +32,13 @@ const ProductsSlice = createSlice({
       state.arrinfo.splice(id, 1);
     },
     valueUpdate: (state, action) => {
-      console.log("action~", action.payload);
+     
       state.formEdit = {...action.payload, watch : true};
     },
     updateInfo: (state, action)=>{
       const edit = action.payload
-      console.log("action.payload~", action.payload)
       const infoIndex = state.arrinfo.findIndex((info)=>info.id == edit.id)
-      console.log("infoIndex~", infoIndex)
-      
+      state.formEdit = {...action.payload, watch : false};
       if ( infoIndex>=0 ){
         state.arrinfo[infoIndex] = edit;
       }

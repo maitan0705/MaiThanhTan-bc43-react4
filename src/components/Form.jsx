@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { Input } from "../custom/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { setInfo, updateInfo } from "../feature/ProductsSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const schema = yup
   .object({
@@ -23,6 +23,12 @@ const schema = yup
 const Form = () => {
   const student = useSelector((state) => state.infoStudent.formEdit);
   const dispatch = useDispatch();
+
+  // const [id, setId] = useState()
+  // const [name, setName] = useState()
+  // const [email, setEmail] = useState()
+  // const [phone, setPhone] = useState()
+
   const {
     handleSubmit,
     control,
@@ -52,7 +58,7 @@ const Form = () => {
     setValue("name", `${student.name}`);
     setValue("email", `${student.email}`);
     setValue("phone", `${student.phone}`);
-  }, [setValue, student]);
+  },[student]);
 
   return (
     <form
@@ -80,6 +86,7 @@ const Form = () => {
             placeholder="Enter your name address"
             id="name"
             control={control}
+            
             // onChange={(e) => setName(e.target.value)}
           >
             Name
@@ -116,7 +123,7 @@ const Form = () => {
             <p className="text-danger m-0 fs-6">{errors.phone.message}</p>
           )}
         </div>
-        <button type="submit">{student.watch ? "Update" : "Add"}</button>
+        <button type="submit" className="btn btn-danger">{student.watch? "Update" : "Add"}</button>
       </div>
     </form>
   );
