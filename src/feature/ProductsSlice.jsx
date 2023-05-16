@@ -6,7 +6,7 @@ const initialState = {
     name: "",
     email: "",
     phone: "",
-    watch: false
+    watch: false,
   },
 
   arrinfo: [
@@ -32,24 +32,23 @@ const ProductsSlice = createSlice({
       state.arrinfo.splice(id, 1);
     },
     valueUpdate: (state, action) => {
-     
-      state.formEdit = {...action.payload, watch : true};
+      state.formEdit = { ...action.payload, watch: true };
     },
-    updateInfo: (state, action)=>{
-      const edit = action.payload
-      const infoIndex = state.arrinfo.findIndex((info)=>info.id == edit.id)
-      state.formEdit = {...action.payload, watch : false};
-      if ( infoIndex>=0 ){
+    updateInfo: (state, action) => {
+      const edit = action.payload;
+      const infoIndex = state.arrinfo.findIndex((info) => info.id == edit.id);
+      state.formEdit = { id: "", name: "", email: "", phone: "", watch: false };
+      if (infoIndex >= 0) {
         state.arrinfo[infoIndex] = edit;
       }
-    }
+    },
     // updateInfo: (state, action) => {
     //   const { id, name, email, phone } = action.payload;
     //   console.log("action.payload~", action.payload)
-    //   
+    //
     //   const user = state.arrinfo.findIndex((user) => user.id === id);
     //   console.log(" user~",  user)
-    //   
+    //
     //   if (user=== -1) {
     //     user.name = name;
     //     user.email = email;
